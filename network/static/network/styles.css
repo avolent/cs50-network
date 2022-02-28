@@ -1,0 +1,36 @@
+#heading {
+    padding: 0.5rem 1rem;
+}
+
+form{
+    display: inherit;
+    flex-direction: inherit;
+    width: 100%;
+}
+
+#createPost {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem 1rem;
+}
+
+#createPost button {
+    margin-top: 2px;
+    align-self: flex-start;
+}
+
+#createPost textarea {
+    min-height: 100px;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem 1rem;
+}
