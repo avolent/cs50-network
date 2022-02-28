@@ -10,7 +10,14 @@ class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="posts")
     body = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)
+    likes = models.ManyToManyField(User)
 
     def __str__(self):
         return f"Post: {self.id} | {self.user} posted the following '{self.body}' at {self.timestamp}. Current Likes: {self.likes}"
+
+class Follower(models.Model):
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE, related_name="follows")
+    followers = models.ManyToManyField(User)
+    def __str__(self):
+        return f"{self.user}"
+

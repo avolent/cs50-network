@@ -22,4 +22,5 @@ function post(type) {
             console.log(result);
         });
     }
+    return false;
 }

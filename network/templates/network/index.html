@@ -1,11 +1,11 @@
 {% extends "network/layout.html" %}
 {% load static %}
 
-
 {% block body %}
 <div id="heading">
 <h1>All Posts</h1>
 </div>
+{% if user.is_authenticated %}
 <div id="createPost">
     <h3>New Post</h3>
     <form id="createForm">
@@ -13,20 +13,21 @@
         <button id="postbtn" class="btn btn-sm btn-outline-primary">Post</button>
     </form>
 </div>
-    {% for post in posts %}
-        <div id="posts">
-            <div class="post">
-                <div class="postName"><h3>{{ post.user.username }}</h3></div>
-                <div class="postEdit">Edit</div>
-                <div class="postText">{{ post.body }}</div>
-                <div class="postTimestamp">{{ post.timestamp }}</div>
-                <div class="postLikes">&#10084;{{ post.likes }}</div>
-                <div class="postComment">Comment</div>
-            </div>
+{% endif %}
+    <div id="posts">
+        {% for post in posts %}
+        <div class="post">
+            <div class="postName"><a href="{% url 'profile' post.user.username %}"><h3>{{ post.user.username }}</h3></a></div>
+            <div class="postEdit">Edit</div>
+            <div class="postText">{{ post.body }}</div>
+            <div class="postTimestamp">{{ post.timestamp }}</div>
+            <div class="postLikes">&#10084;{{ post.likes.count }}</div>
+            <div class="postComment">Comment</div>
         </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'network/script.js' %}"></script>
+<script src="{% static 'network/createPost.js' %}"></script>
 {% endblock %}

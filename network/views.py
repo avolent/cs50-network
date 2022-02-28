@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Post, Follower
 
 
 def index(request):
@@ -68,9 +68,16 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
-def user(request, user):
+def profile(request, profile):
+    user = User.objects.get(username=profile)
+    follower = Follower.objects.get(user=user)
+    following = Follower.objects.filter(followers=user)
+    posts = Post.objects.filter(user=user).order_by("-timestamp").all()
     return render(request, "network/user.html", {
-        "user": user,
+        "profile": user,
+        "posts": posts,
+        "follower": follower,
+        "following": following,
     })
 
 @login_required
