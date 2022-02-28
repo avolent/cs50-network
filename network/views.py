@@ -10,7 +10,11 @@ from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    # Grab all current posts and order by timestamp
+    posts = Post.objects.all().order_by("-timestamp").all()
+    return render(request, "network/index.html", {
+        "posts": posts
+    })
 
 
 def login_view(request):

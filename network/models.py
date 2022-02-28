@@ -3,7 +3,8 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    def __str__(self):
+        return f"ID:{self.id} - {self.username} | {self.email}"
 
 class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="posts")
@@ -12,4 +13,4 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.user} posted the following '{self.body}' at {self.timestamp}. Current Likes: {self.likes}"
+        return f"Post: {self.id} | {self.user} posted the following '{self.body}' at {self.timestamp}. Current Likes: {self.likes}"

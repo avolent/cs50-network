@@ -13,16 +13,18 @@
         <button id="postbtn" class="btn btn-sm btn-outline-primary">Post</button>
     </form>
 </div>
-<div id="posts">
-    <div class="post">
-        <div class="postName"><h3>Name</h3></div>
-        <div class="postEdit">Edit</div>
-        <div class="postText">This is a test post</div>
-        <div class="postTimestamp">Timestamp</div>
-        <div class="postLikes">Heart Likes</div>
-        <div class="postComment">Comment</div>
-    </div>
-</div>
+    {% for post in posts %}
+        <div id="posts">
+            <div class="post">
+                <div class="postName"><h3>{{ post.user.username }}</h3></div>
+                <div class="postEdit">Edit</div>
+                <div class="postText">{{ post.body }}</div>
+                <div class="postTimestamp">{{ post.timestamp }}</div>
+                <div class="postLikes">&#10084;{{ post.likes }}</div>
+                <div class="postComment">Comment</div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block script %}
