@@ -6,26 +6,49 @@
 <h1>{{ profile.username }}'s Profile</h1>
 </div>
 <div id="userDetails">
-    <div id="followers">Followers: {{ follower.followers.count }} </div>
-    <div id="following">Following: {{ following.count }}</div>
+    <div id="followers">Followers: <span id="followersCount">{{ followers.count }}</span>  </div>
+    <div id="following">Following: <span id="followingCount">{{ following.count }}</span> </div>
     {% if user.is_authenticated and user.username != profile.username %}
-    <button id="followbtn" class="btn btn-sm btn-outline-primary">Follow</button>
+        {% if user not in followers %}
+        <button id="followbtn" data-user="{{ profile.username }}" value="follow" class="btn btn-sm btn-outline-primary">Follow</button>
+        {% else %}
+        <button id="followbtn" data-user="{{ profile.username }}" value="unfollow" class="btn btn-sm btn-outline-primary">Unfollow</button>
+        {% endif %}
     {% endif %}
 </div>
 <div id="posts">
-    {% for post in posts %}
+    {% for post in page_obj %}
     <div class="post">
         <div class="postName"><h3>{{ post.user.username }}</h3></div>
-        <div class="postEdit">Edit</div>
+        {% if user == post.user %}<div class="postEdit">Edit</div>{% endif %}
         <div class="postText">{{ post.body }}</div>
         <div class="postTimestamp">{{ post.timestamp }}</div>
-        <div class="postLikes">&#10084;{{ post.likes.count }}</div>
+        <div class="postLikes">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}{{ post.likes.count }}</div>
         <div class="postComment">Comment</div>
     </div>
     {% endfor %}
 </div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'network/followUser.js' %}"></script>
+{% if user.is_authenticated and user.username != profile.username %}
+    <script src="{% static 'network/followUser.js' %}"></script>
+{% endif %}
 {% endblock %}

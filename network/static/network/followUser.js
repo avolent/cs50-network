@@ -1,25 +1,34 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("JS loaded")
-    // document.querySelector('#followbtn').addEventListener('click', () => follow());
-    const button = document.querySelector('#followbtn')
-    button.onclick = () => follow(button);
+    const followbtn = document.querySelector('#followbtn');
+    followbtn.onclick = () => follow();
 });
 
-function follow(button) {
+function follow() {
     const csrftoken = Cookies.get('csrftoken');
-    console.log("Follow User");
-    console.log(button)
-
-    // fetch('/post', {
-    //     method: 'POST',
-    //     headers: { "X-CSRFToken": csrftoken },
-    //     body: JSON.stringify({
-    //         user: user
-    //     })
-    // })
-    // .then(response => response.json())
-    // .then(result => {
-    //     // Print result
-    //     console.log(result);
-    // });
+    console.log(`${followbtn.value} ${followbtn.dataset.user}`);
+    
+    fetch('/follow', {
+        method: 'POST',
+        headers: { "X-CSRFToken": csrftoken },
+        body: JSON.stringify({
+            user: followbtn.dataset.user,
+            action: followbtn.value,
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Print result
+        console.log(result);
+    });
+    if (followbtn.value == "follow") {
+        followbtn.innerHTML = "Unfollow";
+        followbtn.value = "unfollow";
+        document.querySelector('#followersCount').innerHTML = parseInt(document.querySelector('#followersCount').innerHTML) + 1;
+    }
+    else {
+        followbtn.innerHTML = "Follow";
+        followbtn.value = "follow";
+        document.querySelector('#followersCount').innerHTML = parseInt(document.querySelector('#followersCount').innerHTML) - 1;
+    };
 }
