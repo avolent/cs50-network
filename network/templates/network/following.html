@@ -17,7 +17,7 @@
             {% if user == post.user %}<div class="postEdit">Edit</div>{% endif %}
             <div class="postText">{{ post.body }}</div>
             <div class="postTimestamp">{{ post.timestamp }}</div>
-            <div class="postLikes">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}{{ post.likes.count }}</div>
+            <div class="postLikes"><span class="like">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}</span>{{ post.likes.count }}</div>
             <div class="postComment">Comment</div>
         </div>
         {% endfor %}
@@ -42,5 +42,5 @@
 {% endblock %}
 
 {% block script %}
-<!-- <script src="{% static 'network/createPost.js' %}"></script> -->
+<script src="{% static 'network/post.js' %}"></script>
 {% endblock %}

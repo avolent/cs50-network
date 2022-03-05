@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("JS loaded")
+    console.log("followUser.js loaded")
     const followbtn = document.querySelector('#followbtn');
     followbtn.onclick = () => follow();
 });

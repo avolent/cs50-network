@@ -10,7 +10,7 @@
     <h3>New Post</h3>
     <form id="createForm">
         <textarea id="postBody"></textarea>
-        <button id="postbtn" class="btn btn-sm btn-outline-primary">Post</button>
+        <button id="postbtn" value="create" class="btn btn-sm btn-outline-primary">Post</button>
     </form>
 </div>
 {% endif %}
@@ -18,10 +18,10 @@
     {% for post in page_obj %}
     <div class="post">
         <div class="postName"><a href="{% url 'profile' post.user.username %}"><h3>{{ post.user.username }}</h3></a></div>
-        {% if user == post.user %}<div class="postEdit">Edit</div>{% endif %}
+        {% if user == post.user %}<div value="edit" class="postEdit">Edit</div>{% endif %}
         <div class="postText">{{ post.body }}</div>
         <div class="postTimestamp">{{ post.timestamp }}</div>
-        <div class="postLikes">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}{{ post.likes.count }}</div>
+        <div class="postLikes"><span class="like">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}</span>{{ post.likes.count }}</div>
         <div class="postComment">Comment</div>
     </div>
     {% endfor %}
@@ -46,5 +46,5 @@
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'network/createPost.js' %}"></script>
+<script src="{% static 'network/post.js' %}"></script>
 {% endblock %}

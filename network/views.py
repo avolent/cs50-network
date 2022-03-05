@@ -15,7 +15,6 @@ def index(request):
     pages = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = pages.get_page(page_number)
-    print(posts[0].likes.all())
     return render(request, "network/index.html", {
         "page_obj": page_obj,
     })
@@ -111,9 +110,16 @@ def post(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
     data = json.loads(request.body)
-    print(data) 
-    post = Post(user=request.user, body=data.get("body"))
-    post.save()
+    print(data)
+    if data.get("action") == "create":
+        print("post")
+        post = Post(user=request.user, body=data.get("body"))
+        post.save()
+    if data.get("action") == "edit":
+        print("edit")
+    if data.get("action") == "like":
+        print("like")
+
     return JsonResponse({"message": "Post successfully created."}, status=201)
 
 @login_required
