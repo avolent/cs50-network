@@ -115,12 +115,28 @@ def post(request):
         print("post")
         post = Post(user=request.user, body=data.get("body"))
         post.save()
+        return HttpResponseRedirect(reverse("index"))
     if data.get("action") == "edit":
         print("edit")
+        id = data.get("post")
+        body = data.get("body")
+        post = Post.objects.get(id=id)
+        if request.user != post.user:
+            return JsonResponse({"message": "You do not own this post."}, status=401)
+        post.body = body
+        post.save()
+        print(post)
+        return JsonResponse({"message": "Post successfully edited."}, status=201)
     if data.get("action") == "like":
         print("like")
-
-    return JsonResponse({"message": "Post successfully created."}, status=201)
+        id = data.get("post")
+        post = Post.objects.get(id=id)
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+            return JsonResponse({"message": "Post successfully unliked."}, status=201)
+        post.likes.add(request.user)
+        return JsonResponse({"message": "Post successfully liked."}, status=201)
+    
 
 @login_required
 def follow(request):

@@ -2,12 +2,18 @@
     margin: 0.5rem 1rem;
 }
 
+textarea {
+    width: 100%;
+    white-space: pre-line;
+}
+
 form{
     display: inherit;
     flex-direction: inherit;
     width: 100%;
 }
 
+/* Create post layout */
 #createPost {
     display: flex;
     flex-direction: column;
@@ -24,6 +30,10 @@ form{
 #createPost textarea {
     min-height: 100px;
 }
+/* Posts layout */
+.pagination {
+    justify-content: center;
+}
 
 .post {
     display: flex;
@@ -34,10 +44,27 @@ form{
     margin-top: 0.5rem;
 }
 
-.postEdit, .like{
+
+.postEdit, .like, .postComment {
     cursor: pointer;
 }
 
-.pagination {
-    justify-content: center;
+.postEdit, .postComment, .postLikes {
+    font-size: smaller;
+    font-weight: 500;
+}
+
+.postTimestamp {
+    font-size: smaller;
+    color: rgb(110, 110, 110);
+}
+
+.likes {
+    display: inline-block;
+}
+
+.postText {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    white-space: pre-line;
 }

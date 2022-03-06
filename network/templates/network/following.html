@@ -8,16 +8,16 @@
     <div id="posts">
         {% if not page_obj %}
         <div class="post">
-            You don't follow anyone, please go follow someone!
+            Either you don't follow anyone or no one you follow has posted!
         </div>
         {% endif %}
         {% for post in page_obj %}
-        <div class="post">
+        <div id="{{ post.id  }}" class="post">
             <div class="postName"><a href="{% url 'profile' post.user.username %}"><h3>{{ post.user.username }}</h3></a></div>
-            {% if user == post.user %}<div class="postEdit">Edit</div>{% endif %}
+            {% if user == post.user %}<div value="edit" class="postEdit">Edit</div>{% endif %}
             <div class="postText">{{ post.body }}</div>
             <div class="postTimestamp">{{ post.timestamp }}</div>
-            <div class="postLikes"><span class="like">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}</span>{{ post.likes.count }}</div>
+            <div class="postLikes"><span class="like">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}</span><div class="likes">{{ post.likes.count }}</div></div>
             <div class="postComment">Comment</div>
         </div>
         {% endfor %}
@@ -42,5 +42,7 @@
 {% endblock %}
 
 {% block script %}
+{% if user.is_authenticated %}
 <script src="{% static 'network/post.js' %}"></script>
+{% endif %}
 {% endblock %}

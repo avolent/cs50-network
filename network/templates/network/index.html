@@ -9,19 +9,19 @@
 <div id="createPost">
     <h3>New Post</h3>
     <form id="createForm">
-        <textarea id="postBody"></textarea>
+        <textarea required id="postBody"></textarea>
         <button id="postbtn" value="create" class="btn btn-sm btn-outline-primary">Post</button>
     </form>
 </div>
 {% endif %}
 <div id="posts">
     {% for post in page_obj %}
-    <div class="post">
+    <div id="{{ post.id  }}" class="post">
         <div class="postName"><a href="{% url 'profile' post.user.username %}"><h3>{{ post.user.username }}</h3></a></div>
         {% if user == post.user %}<div value="edit" class="postEdit">Edit</div>{% endif %}
         <div class="postText">{{ post.body }}</div>
         <div class="postTimestamp">{{ post.timestamp }}</div>
-        <div class="postLikes"><span class="like">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}</span>{{ post.likes.count }}</div>
+        <div class="postLikes"><span class="like">{% if user in post.likes.all %}&#128148;{% else %}&#128147;{% endif %}</span><div class="likes">{{ post.likes.count }}</div></div>
         <div class="postComment">Comment</div>
     </div>
     {% endfor %}
@@ -46,5 +46,7 @@
 {% endblock %}
 
 {% block script %}
+{% if user.is_authenticated %}
 <script src="{% static 'network/post.js' %}"></script>
+{% endif %}
 {% endblock %}
